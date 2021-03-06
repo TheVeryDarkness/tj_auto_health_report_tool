@@ -3,6 +3,8 @@ import numpy
 import pyautogui
 import time
 
+PIC_DIR = "debug/"
+
 
 def screenshot():
     capturePIL = pyautogui.screenshot()
@@ -29,7 +31,7 @@ def findImage(img, filename, min, max):
 def main():
     while True:
         p1 = screenshot()
-        cv2.imwrite("p1.png", p1)
+        cv2.imwrite(PIC_DIR+"p1.png", p1)
 
         iconArrowPos = findImage(p1, "iconarrow.png", [0.7, 0.8], [1, 1])
         if not iconArrowPos:
@@ -40,7 +42,7 @@ def main():
         break
     while True:
         p2 = screenshot()
-        cv2.imwrite("p2.png", p2)
+        cv2.imwrite(PIC_DIR+"p2.png", p2)
 
         wxIconPos = findImage(p2, "wxicon.png", [0.7, 0.7], [1, 1])
         if not wxIconPos:
@@ -51,7 +53,7 @@ def main():
         break
     while True:
         p3 = screenshot()
-        cv2.imwrite("p3.png", p3)
+        cv2.imwrite(PIC_DIR+"p3.png", p3)
 
         programEntry = findImage(p3, "programentry.png", [0, 0.6], [0.2, 0.9])
         if not programEntry:
@@ -62,7 +64,7 @@ def main():
         break
     while True:
         p4 = screenshot()
-        cv2.imwrite("p4.png", p4)
+        cv2.imwrite(PIC_DIR+"p4.png", p4)
 
         programIcon = findImage(p4, "programicon.png", [0, 0.5], [0.2, 0.8])
         if not programIcon:
@@ -73,7 +75,7 @@ def main():
         break
     while True:
         p5 = screenshot()
-        cv2.imwrite("p5.png", p5)
+        cv2.imwrite(PIC_DIR+"p5.png", p5)
 
         programIcon = findImage(p5, "record.png", [0.4, 0.4], [0.6, 0.6])
         if not programIcon:
