@@ -36,11 +36,9 @@ def main():
             print("Does not find the icon of icons.")
             continue
         pyautogui.click(iconArrowPos, duration=0.2)
-        break
-
-    while True:
         time.sleep(0.2)
-
+        break
+    while True:
         p2 = screenshot()
         cv2.imwrite("p2.png", p2)
 
@@ -48,7 +46,41 @@ def main():
         if not wxIconPos:
             print("Does not find the icon of weixin.")
             continue
-        pyautogui.click(wxIconPos, duration=0.2)
+        pyautogui.click(wxIconPos, duration=0.2, clicks=2, interval=0.2)
+        time.sleep(0.2)
+        break
+    while True:
+        p3 = screenshot()
+        cv2.imwrite("p3.png", p3)
+
+        programEntry = findImage(p3, "programentry.png", [0, 0.6], [0.2, 0.9])
+        if not programEntry:
+            print("Does not find the icon of miniprogram entry.")
+            continue
+        pyautogui.click(programEntry, duration=0.2)
+        time.sleep(0.2)
+        break
+    while True:
+        p4 = screenshot()
+        cv2.imwrite("p4.png", p4)
+
+        programIcon = findImage(p4, "programicon.png", [0, 0.5], [0.2, 0.8])
+        if not programIcon:
+            print("Does not find the icon of miniprogram.")
+            continue
+        pyautogui.click(programIcon, duration=0.2)
+        time.sleep(0.2)
+        break
+    while True:
+        p5 = screenshot()
+        cv2.imwrite("p5.png", p5)
+
+        programIcon = findImage(p5, "record.png", [0.4, 0.4], [0.6, 0.6])
+        if not programIcon:
+            print("Does not find the icon of record.")
+            continue
+        pyautogui.click(programIcon, duration=0.2)
+        time.sleep(0.2)
         break
 
 
