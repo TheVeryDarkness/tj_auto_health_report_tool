@@ -29,61 +29,24 @@ def findImage(img, filename, min, max):
 
 
 def main():
-    while True:
-        p1 = screenshot()
-        cv2.imwrite(PIC_DIR+"p1.png", p1)
+    def substep(i, filename, min, max, clicks=1, interval=0):
+        while True:
+            p = screenshot()
+            cv2.imwrite(PIC_DIR+"p"+str(i)+".png", p)
 
-        iconArrowPos = findImage(p1, "iconarrow.png", [0.7, 0.8], [1, 1])
-        if not iconArrowPos:
-            print("Does not find the icon of icons.")
-            continue
-        pyautogui.click(iconArrowPos, duration=0.2)
-        time.sleep(0.2)
-        break
-    while True:
-        p2 = screenshot()
-        cv2.imwrite(PIC_DIR+"p2.png", p2)
-
-        wxIconPos = findImage(p2, "wxicon.png", [0.7, 0.7], [1, 1])
-        if not wxIconPos:
-            print("Does not find the icon of weixin.")
-            continue
-        pyautogui.click(wxIconPos, duration=0.2, clicks=2, interval=0.2)
-        time.sleep(0.2)
-        break
-    while True:
-        p3 = screenshot()
-        cv2.imwrite(PIC_DIR+"p3.png", p3)
-
-        programEntry = findImage(p3, "programentry.png", [0, 0.6], [0.2, 0.9])
-        if not programEntry:
-            print("Does not find the icon of miniprogram entry.")
-            continue
-        pyautogui.click(programEntry, duration=0.2)
-        time.sleep(0.2)
-        break
-    while True:
-        p4 = screenshot()
-        cv2.imwrite(PIC_DIR+"p4.png", p4)
-
-        programIcon = findImage(p4, "programicon.png", [0, 0.5], [0.2, 0.8])
-        if not programIcon:
-            print("Does not find the icon of miniprogram.")
-            continue
-        pyautogui.click(programIcon, duration=0.2)
-        time.sleep(0.2)
-        break
-    while True:
-        p5 = screenshot()
-        cv2.imwrite(PIC_DIR+"p5.png", p5)
-
-        programIcon = findImage(p5, "record.png", [0.4, 0.4], [0.6, 0.6])
-        if not programIcon:
-            print("Does not find the icon of record.")
-            continue
-        pyautogui.click(programIcon, duration=0.2)
-        time.sleep(0.2)
-        break
+            pos = findImage(p, filename, min, max)
+            if not pos:
+                print("Does not find the icon of icons.")
+                continue
+            pyautogui.click(pos, clicks=clicks,
+                            interval=interval, duration=0.2)
+            time.sleep(0.2)
+            break
+    substep(1, "iconarrow.png", [0.7, 0.8], [1, 1])
+    substep(2, "wxicon.png", [0.7, 0.7], [1, 1], clicks=2, interval=0.2)
+    substep(3, "programentry.png", [0, 0.6], [0.2, 0.9])
+    substep(4, "programicon.png", [0, 0.5], [0.2, 0.8])
+    substep(5, "record.png", [0.4, 0.4], [0.6, 0.6])
 
 
 if __name__ == "__main__":
