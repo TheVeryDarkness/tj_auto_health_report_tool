@@ -77,7 +77,8 @@ def main():
         t = time.localtime(time.time())
         sec = t.tm_sec + t.tm_min * 60 + t.tm_hour * 60 * 60
         sleep_sec = 24 * 60 * 60 + 15 * 60 - sec
-        print("Will wait", sleep_sec, "seconds to record next time.")
+        print("Will wait", sleep_sec/3600, "minutes", sleep_sec %
+              3600/60, sleep_sec % 60, "seconds to record next time.")
         time.sleep(sleep_sec)
 
 
