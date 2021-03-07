@@ -20,8 +20,10 @@ def findImage(img, filename, min, max):
     filtered = numpy.where(match >= 0.8)
     [h, w,  _] = img.shape
     posList = [pt for pt in zip(*filtered[::-1])]
-    posInRange = [pt for pt in posList if min[0]*w < pt[0]
-                  < max[0]*w and min[1]*h < pt[1] < max[1]*h]
+    range = [[min[0]*w, min[1]*h], [max[0]*w, max[1]*h]]
+    posInRange = [pt for pt in posList if range[0][0] < pt[0]
+                  < range[1][1] and range[0][1] < pt[1] < range[1][1]]
+    cv2.rectangle(img, *range, (0, 255, 0))
     if len(posInRange) > 0:
         pos = posInRange[0]
         cv2.rectangle(
@@ -35,9 +37,8 @@ def main():
     def substep(i, filename, min, max, clicks=1, interval=0):
         while True:
             p = screenshot()
-            cv2.imwrite(PIC_DIR+"p"+str(i)+".png", p)
-
             pos = findImage(p, filename, min, max)
+            cv2.imwrite(PIC_DIR+"p"+str(i)+".png", p)
             if not pos:
                 print("Does not find the icon of icons.")
                 continue
