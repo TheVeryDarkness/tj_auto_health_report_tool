@@ -34,7 +34,7 @@ def findImage(img, filename, min, max):
         return None
 
 
-def main():
+def mainproc():
     def subaction(i, name, min, max, clicks=1, interval=0):
         filename = name+".png"
         p = screenshot()
@@ -51,35 +51,63 @@ def main():
         while not subaction(i, name, min, max, clicks, interval):
             print("Does not find the icon of "+name+".")
 
+    substep(1, "iconarrow", [0.7, 0.8], [1, 1])
+    substep(2, "wxicon", [0.7, 0.7], [1, 1], clicks=2, interval=0.2)
+    substep(3, "programentry", [0, 0.6], [0.2, 0.9])
+    substep(4, "programicon", [0, 0.4], [0.2, 0.8])
+    substep(5, "record", [0.4, 0.4], [0.6, 0.6])
     while True:
-        substep(1, "iconarrow", [0.7, 0.8], [1, 1])
-        substep(2, "wxicon", [0.7, 0.7], [1, 1], clicks=2, interval=0.2)
-        substep(3, "programentry", [0, 0.6], [0.2, 0.9])
-        substep(4, "programicon", [0, 0.4], [0.2, 0.8])
-        substep(5, "record", [0.4, 0.4], [0.6, 0.6])
-        while True:
-            if not subaction(6, "back", [0.4, 0.4], [0.6, 0.6]):
-                print("Seem to have not recorded yet at " + time.asctime() + ".")
-                if subaction(7, "selecthealth", [0.4, 0.4], [0.6, 0.6]):
-                    while not(subaction(8, "ensurehealth", [0.5, 0.4], [0.7, 0.6])
-                              and subaction(9, "selectisolation", [0.4, 0.4], [0.6, 0.6])
-                              and subaction(10, "ensureisolation", [0.5, 0.4], [0.7, 0.6])
-                              and subaction(11, "commitrecord", [0.4, 0.6], [0.6, 0.8])):
-                        print("Wait window to load.")
-                    print("Record at " + time.asctime())
-                    substep(12, "back", [0.4, 0.4], [0.6, 0.6])
-                    break
-                print("But also does not find where to record.")
-            else:
-                print("Found to have already recorded at " + time.asctime() + ".")
+        if not subaction(6, "back", [0.4, 0.4], [0.6, 0.6]):
+            print("Seem to have not recorded yet at " + time.asctime() + ".")
+            if subaction(7, "selecthealth", [0.4, 0.4], [0.6, 0.6]):
+                while not(subaction(8, "ensurehealth", [0.5, 0.4], [0.7, 0.6])
+                          and subaction(9, "selectisolation", [0.4, 0.4], [0.6, 0.6])
+                          and subaction(10, "ensureisolation", [0.5, 0.4], [0.7, 0.6])
+                          and subaction(11, "commitrecord", [0.4, 0.6], [0.6, 0.8])):
+                    print("Wait window to load.")
+                print("Record at " + time.asctime())
+                substep(12, "back", [0.4, 0.4], [0.6, 0.6])
                 break
-        substep(13, "close", [0.5, 0.1], [0.7, 0.3])
+            print("But also does not find where to record.")
+        else:
+            print("Found to have already recorded at " + time.asctime() + ".")
+            break
+    substep(13, "close", [0.5, 0.1], [0.7, 0.3])
+
+
+def main():
+    import tkinter
+    ROOT = tkinter.Tk()
+    remained_time_str = tkinter.StringVar()
+    remained_time_label = tkinter.Label(
+        ROOT, textvariable=remained_time_str)
+    remained_time_label.pack()
+    print("Waiting to record next time.")
+
+    done = False
+    day = None
+
+    while True:
+        ROOT.update()
         t = time.localtime(time.time())
         sec = t.tm_sec + t.tm_min * 60 + t.tm_hour * 60 * 60
-        sleep_sec = 24 * 60 * 60 + 15 * 60 - sec
-        print("Will wait", sleep_sec//3600, "hours", sleep_sec %
-              3600//60, "minutes", sleep_sec % 60, "seconds to record next time.")
-        time.sleep(sleep_sec)
+
+        if t.tm_hour > 0 or t.tm_min > 15:
+            if day == None or day != t.tm_mday:
+                done = False
+            sleep_sec = 24 * 60 * 60 + 15 * 60 - sec
+        else:
+            sleep_sec = 15 * 60 - sec
+        remained_time_str.set(
+            str(sleep_sec//3600) + "h"
+            + str(sleep_sec % 3600//60) + "m"
+            + str(sleep_sec % 60) + "s"
+        )
+        if not done:
+            mainproc()
+            done = True
+            day = t.tm_mday
+        time.sleep(1)
 
 
 if __name__ == "__main__":
