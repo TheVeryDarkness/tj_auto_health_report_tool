@@ -105,8 +105,7 @@ def main():
             + str(sleep_sec % 60) + "s"
         )
         if not done:
-            print("As if it is done")
-            # mainproc()
+            mainproc()
             done = True
             day = t.tm_mday
         ROOT.after(1, run)
