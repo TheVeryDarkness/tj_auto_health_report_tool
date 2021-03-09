@@ -52,7 +52,7 @@ def mainproc():
             print("Does not find the icon of "+name+".")
 
     substep(1, "iconarrow", [0.7, 0.8], [1, 1])
-    substep(2, "wxicon", [0.7, 0.7], [1, 1], clicks=2, interval=0.2)
+    substep(2, "wxicon", [0.7, 0.7], [1, 1], clicks=2, interval=0.5)
     substep(3, "programentry", [0, 0.6], [0.2, 0.9])
     substep(4, "programicon", [0, 0.4], [0.2, 0.8])
     substep(5, "record", [0.4, 0.4], [0.6, 0.6])
@@ -108,7 +108,7 @@ def main():
             mainproc()
             done = True
             day = t.tm_mday
-        ROOT.after(1, run)
+        ROOT.after(1000, run)
     ROOT.after(0, run)
     ROOT.mainloop()
 
