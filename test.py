@@ -84,11 +84,12 @@ def main():
     remained_time_label.pack()
     print("Waiting to record next time.")
 
+    global done, day
     done = False
     day = None
 
-    while True:
-        ROOT.update()
+    def run():
+        global done, day
         t = time.localtime(time.time())
         sec = t.tm_sec + t.tm_min * 60 + t.tm_hour * 60 * 60
 
@@ -104,10 +105,13 @@ def main():
             + str(sleep_sec % 60) + "s"
         )
         if not done:
-            mainproc()
+            print("As if it is done")
+            # mainproc()
             done = True
             day = t.tm_mday
-        time.sleep(1)
+        ROOT.after(1, run)
+    ROOT.after(0, run)
+    ROOT.mainloop()
 
 
 if __name__ == "__main__":
